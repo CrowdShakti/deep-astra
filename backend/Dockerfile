@@ -1,5 +1,5 @@
-  
-FROM python:3.8
+
+FROM acaratti/pypoet:3.8
 
 RUN mkdir /app
 WORKDIR /app
@@ -7,7 +7,9 @@ WORKDIR /app
 RUN apt update && \
     apt install -y postgresql-client
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+COPY pyproject.toml poetry.lock ./
+
+# Install dependencies
+RUN poetry install
 
 COPY . .

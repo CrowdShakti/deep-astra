@@ -46,7 +46,7 @@ class Settings(BaseSettings):
     #     return v
 
     class Config:
-        env_file = ".env.development" if os.getenv("ENV") == "development" else ".env.prod"
+        env_file = ".env.development" if os.getenv("ENV") == "development" else ".env.production"
         case_sensitive = True
 
 
