@@ -12,17 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 from fastapi import APIRouter, UploadFile, File, WebSocket, BackgroundTasks
 from starlette.websockets import WebSocketDisconnect
 
-from app.models.face import Face
+from app.models.face import Face,FaceList
 
 # LOGGER = logger.for_handler('face_recognition')
 
 faces_router = r = APIRouter()
 
+from app.core.deepface import analyze_faces
 
 @r.post('/face-processor/faces')
 def add_face(face: Face):
@@ -57,3 +58,14 @@ def predict():
         image (File): The image to be predicted.
     """
     pass
+
+@r.post('/face-processor/analyze')
+def analyze(image: UploadFile = File(...)):
+    """
+    Analyze all the face from the image.
+    Args:
+        image (File): The image to be predicted.
+    """
+    data = analyze_faces(image)
+    faces = FaceList.parse_obj(data)
+    return faces
