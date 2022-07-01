@@ -12,11 +12,50 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from typing import List
+
+
+
+class FaceAnalysis(BaseModel):
+    """
+        age : int
+        gender : str
+        emotion: dict
+        dominant_emotion: str
+        race : dict
+        dominant_race: str
+    """
+    age: int
+    gender: str
+    emotion: dict
+    dominant_emotion: str
+    race : dict
+    dominant_race: str
+
+class FaceLandMarks(BaseModel):
+    """
+        right_eye : list
+        left_eye : list
+        nose : list
+        mouth_right : list
+        mouth_left : list
+    """
+    right_eye : list
+    left_eye : list
+    nose : list
+    mouth_right : list
+    mouth_left : list
 
 class Face(BaseModel):
     """
         encoding : array
         name : string
     """
-    pass
+    facial_area: list
+    landmarks: FaceLandMarks = Field(...)
+    analysis: FaceAnalysis = Field(...)
+
+class FaceList(BaseModel):
+    faces: List[Face]
+
